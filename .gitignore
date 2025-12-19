@@ -1,0 +1,16 @@
+# Abaikan file sistem Python
+__pycache__/
+*.py[cod]
+venv/
+
+# Abaikan kunci rahasia (SANGAT PENTING!)
+serviceAccountKey.json
+.env
+
+# Abaikan file gambar hasil generate (biar repo gak penuh sampah)
+*.png
+*.jpg
+
+# Abaikan folder IDE
+.vscode/
+.idea/
