@@ -14,15 +14,18 @@ from blockchain.chain import Blockchain
 # ==========================================
 # KONFIGURASI TELEGRAM & FIREBASE
 # ==========================================
-# Prioritas: Streamlit Secrets (untuk Cloud) > File Lokal (untuk development)
-
-# Buat file Firebase dari Secrets (khusus untuk Streamlit Cloud)
+# Kode Tambahan untuk Cloud Deployment
+# Jika ada secrets 'firebase', maka buat file serviceAccountKey.json secara otomatis
 try:
-    if "textkey" in st.secrets:
-        # Jika di Streamlit Cloud, buat file serviceAccountKey.json dari secrets
-        key_dict = json.loads(st.secrets["textkey"])
+    if "firebase" in st.secrets:
         with open("serviceAccountKey.json", "w") as f:
-            json.dump(key_dict, f, indent=2)
+            f.write(st.secrets["firebase"]["textkey"])
+except Exception:
+    pass  # Jika tidak ada secrets, lanjutkan (untuk lokal)
+
+# Kalau di cloud pakai Secrets, kalau di lokal pakai variabel biasa
+try:
+    if "TELEGRAM_BOT_TOKEN" in st.secrets:
         TELEGRAM_BOT_TOKEN = st.secrets["TELEGRAM_BOT_TOKEN"]
         TELEGRAM_CHAT_ID = st.secrets["TELEGRAM_CHAT_ID"]
     else:
